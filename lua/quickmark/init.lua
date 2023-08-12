@@ -12,7 +12,7 @@ local function display_quickmarks()
     for i = 0, #quickmarks do -- to get lenght of a "table" (ARRAY!!) we use #
         -- well thats very readable
         -- imma stay with c in the future
-        local startl = i + 3 -- shift down lines
+        local startl = i + 3 -- shift down lines gotta make this a var
         local endl = startl + 1
         window_utils.print_to_buf(quickmarks[i], startl, endl)
     end
@@ -33,11 +33,13 @@ local function quickmarks_list()
     local bufid = vim.fn.bufwinid(win.buf)
     local bufw = vim.fn.winwidth(bufid)
     window_utils.print_to_buf(
-        string.rep('─', bufw + 10), -- some extra lines
+        string.rep('─', bufw),
         2, -1
     )
 
     display_quickmarks()
+    -- set cursor to right pos
+    window_utils.move_cursor(0)
     window_utils.set_mappings()
 end
 
@@ -72,5 +74,6 @@ end
 return {
     quickmarks_list = quickmarks_list,
     quickmark_add = quickmark_add,
-    close_window = window_utils.close_window
+    close_window = window_utils.close_window,
+    move_cursor = window_utils.move_cursor,
 }

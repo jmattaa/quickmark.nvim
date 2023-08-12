@@ -2,18 +2,18 @@ local api = vim.api
 local buf
 local win
 
+local width = api.nvim_get_option("columns")
+local height = api.nvim_get_option("lines")
+
+local win_height = math.ceil(height * 0.4 - 4)
+local win_width = math.ceil(width * 0.4)
+
 local function open_window()
     -- create emtpy buffer for the window
     buf = api.nvim_create_buf(false, true)
     local border_buf = api.nvim_create_buf(false, true) -- create the border
 
     api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
-
-    local width = api.nvim_get_option("columns")
-    local height = api.nvim_get_option("lines")
-
-    local win_height = math.ceil(height * 0.4 - 4)
-    local win_width = math.ceil(width * 0.4)
 
     -- starting position center
     local row = math.ceil((height - win_height) / 2 - 1)
@@ -75,9 +75,27 @@ local function print_to_buf(str, startl, endl)
     )
 end
 
+local function move_cursor(dir)
+    local new_pos = api.nvim_win_get_cursor(win)[1] + dir
+    if vim.fn.line("$") < 3 then -- list empty don't move cursor 
+        new_pos = 1
+    else -- list not empty cursor first line is 3
+        if new_pos >= vim.fn.line("$") then
+            new_pos = vim.fn.line("$")
+        elseif new_pos < 3 then -- for some reason 1 is the first not 0
+            new_pos = 3
+        end
+    end
+
+    api.nvim_win_set_cursor(win, { new_pos, 0 })
+end
+
 local function set_mappings()
     local mappings = {
-        q = "close_window()"
+        ['<Esc>'] = "close_window()",
+        q = "close_window()",
+        j = "move_cursor(1)",
+        k = "move_cursor(-1)",
     }
 
     for k, v in pairs(mappings) do
@@ -85,12 +103,26 @@ local function set_mappings()
             nowait = true, noremap = true, silent = true
         })
     end
+
+    -- remove the function of all the other chars
+    local other_chars = {
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x',
+        'y', 'z'
+    }
+    for _, v in ipairs(other_chars) do
+        api.nvim_buf_set_keymap(buf, 'n', v, '', { nowait = true, noremap = true, silent = true })
+        api.nvim_buf_set_keymap(buf, 'n', v:upper(), '', { nowait = true, noremap = true, silent = true })
+        api.nvim_buf_set_keymap(buf, 'n', '<c-' .. v .. '>', '', { nowait = true, noremap = true, silent = true })
+    end
 end
 return {
     open_window = open_window,
     close_window = close_window,
+    move_cursor = move_cursor,
     print_to_buf = print_to_buf,
     set_mappings = set_mappings,
     win = win,
-    buf = buf
+    buf = buf,
+    win_width = win_width,
+    win_height = win_height
 }
