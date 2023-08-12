@@ -1,0 +1,1 @@
+# quickmark.nvim
