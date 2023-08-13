@@ -6,7 +6,7 @@ local width = api.nvim_get_option("columns")
 local height = api.nvim_get_option("lines")
 
 local win_height = math.ceil(height * 0.4 - 4)
-local win_width = math.ceil(width * 0.4)
+local win_width = math.ceil(width * 0.7)
 
 local function open_window()
     -- create emtpy buffer for the window
@@ -77,13 +77,13 @@ end
 
 local function move_cursor(dir)
     local new_pos = api.nvim_win_get_cursor(win)[1] + dir
-    if vim.fn.line("$") < 3 then -- list empty don't move cursor 
-        new_pos = 1
-    else -- list not empty cursor first line is 3
+    if vim.fn.line("$") < 4 then -- list empty don't move cursor
+        new_pos = 1              -- for some reason 1 is the first not 0
+    else                         -- list not empty cursor first line is 3
         if new_pos >= vim.fn.line("$") then
             new_pos = vim.fn.line("$")
-        elseif new_pos < 3 then -- for some reason 1 is the first not 0
-            new_pos = 3
+        elseif new_pos < 4 then
+            new_pos = 4
         end
     end
 
@@ -93,6 +93,7 @@ end
 local function set_mappings()
     local mappings = {
         ['<Esc>'] = "close_window()",
+        ['<cr>'] = "open_file()",
         q = "close_window()",
         j = "move_cursor(1)",
         k = "move_cursor(-1)",

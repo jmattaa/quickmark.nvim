@@ -4,6 +4,10 @@ if exists('g:quickmark_init') | finish | endif " so we don't init more than once
 let s:save_cpo = &cpo " save the users options
 set cpo&vim " use the default vim options
 
+" Highlighting
+hi def link QuickmarkInfo Comment
+hi def link QuickmarkTitle Identifier
+
 " Quickmark command
 command! -nargs=+ -complete=customlist,QuickmarkComplete Quickmark :call QuickmarkCmd(<f-args>)
 
