@@ -1,3 +1,5 @@
+local mappings = require("quickmark.mappings")
+
 local api = vim.api
 local buf
 local win
@@ -91,29 +93,22 @@ local function move_cursor(dir)
 end
 
 local function set_mappings()
-    local mappings = {
-        ['<Esc>'] = "close_window()",
-        ['<cr>'] = "open_file()",
-        q = "close_window()",
-        j = "move_cursor(1)",
-        k = "move_cursor(-1)",
-    }
-
-    for k, v in pairs(mappings) do
-        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require\'quickmark\'.' .. v .. '<cr>', {
-            nowait = true, noremap = true, silent = true
-        })
-    end
-
-    -- remove the function of all the other chars
+    -- remove the function of all the chars
+    -- so we only use ours
     local other_chars = {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x',
-        'y', 'z'
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+        's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     }
+
     for _, v in ipairs(other_chars) do
         api.nvim_buf_set_keymap(buf, 'n', v, '', { nowait = true, noremap = true, silent = true })
         api.nvim_buf_set_keymap(buf, 'n', v:upper(), '', { nowait = true, noremap = true, silent = true })
         api.nvim_buf_set_keymap(buf, 'n', '<c-' .. v .. '>', '', { nowait = true, noremap = true, silent = true })
+    end
+    for k, v in pairs(mappings.mappings) do
+        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require\'quickmark\'.' .. v .. '<cr>', {
+            nowait = true, noremap = true, silent = true
+        })
     end
 end
 return {
@@ -125,5 +120,6 @@ return {
     win = win,
     buf = buf,
     win_width = win_width,
-    win_height = win_height
+    win_height = win_height,
+    mappings = mappings,
 }

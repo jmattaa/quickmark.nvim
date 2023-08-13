@@ -1,5 +1,3 @@
-local window_utils = require("quickmark.window_utils")
-
 local api = vim.api
 
 local function center_str(str)
@@ -8,6 +6,15 @@ local function center_str(str)
     return string.rep(' ', shift) .. str
 end
 
+local function get_key_fom_val(t, val)
+   local s={}
+   for k,v in pairs(t) do
+     s[v]=k
+   end
+   return s[val]
+end
+
 return {
     center_str = center_str,
+    get_key_fom_val = get_key_fom_val,
 }

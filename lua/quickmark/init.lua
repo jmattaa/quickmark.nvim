@@ -2,6 +2,7 @@ local api = vim.api
 
 local window_utils = require("quickmark.window_utils")
 local utils = require("quickmark.utils")
+local mappings = require("quickmark.mappings")
 
 -- array with all quickmarks
 -- lua calls it table eww
@@ -24,7 +25,7 @@ local function quickmarks_list()
     local filename = vim.fn.expand("%")
     local win = window_utils.open_window()
     window_utils.print_to_buf(
-        "Press q to exit",
+        "Press " .. utils.get_key_fom_val(mappings.mappings, 'close_window()') .. " to exit",
         0, -1
     )
     window_utils.print_to_buf(
@@ -119,7 +120,6 @@ local function open_file()
     window_utils.close_window()
     api.nvim_command('edit ' .. str)
 end
-
 
 return {
     quickmarks_list = quickmarks_list,
