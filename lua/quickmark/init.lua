@@ -8,17 +8,20 @@ local utils = require("quickmark.utils")
 -- it's ARRAY
 local quickmarks = { "" }
 
-local function display_quickmarks()
+local function display_quickmarks(filename)
     for i = 0, #quickmarks do -- to get lenght of a "table" (ARRAY!!) we use #
         -- well thats very readable
         -- imma stay with c in the future
-        local startl = i + 3 -- shift down lines gotta make this a var
+        local startl = i + 3              -- shift down lines gotta make this a var
         local endl = startl + 1
-        window_utils.print_to_buf(quickmarks[i], startl, endl)
+        if quickmarks[i] ~= filename then -- dont show the current line
+            window_utils.print_to_buf(quickmarks[i], startl, endl)
+        end
     end
 end
 
 local function quickmarks_list()
+    local filename = vim.fn.expand("%")
     local win = window_utils.open_window()
     window_utils.print_to_buf(
         "Press q to exit",
@@ -51,7 +54,7 @@ local function quickmarks_list()
         0, -1
     )
 
-    display_quickmarks()
+    display_quickmarks(filename)
     -- set cursor to right pos
     window_utils.move_cursor(0)
     window_utils.set_mappings()
@@ -92,7 +95,7 @@ end
 -- removes current file from quickmarks
 local function quickmark_remove()
     local filename = vim.fn.expand('%')
-    for i = 0,#quickmarks do 
+    for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
             print(filename .. "removed from quickmarks")
@@ -102,7 +105,7 @@ local function quickmark_remove()
 end
 
 local function quickmarks_removeall()
-    quickmarks = {""}
+    quickmarks = { "" }
     print("Quickmark: All quickmarks removed")
 end
 
