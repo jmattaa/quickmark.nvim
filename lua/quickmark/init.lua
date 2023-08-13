@@ -89,6 +89,23 @@ local function quickmark_add()
     print(filename .. " added")
 end
 
+-- removes current file from quickmarks
+local function quickmark_remove()
+    local filename = vim.fn.expand('%')
+    for i = 0,#quickmarks do 
+        if quickmarks[i] == filename then
+            table.remove(quickmarks, i)
+            print(filename .. "removed from quickmarks")
+            break
+        end
+    end
+end
+
+local function quickmarks_removeall()
+    quickmarks = {""}
+    print("Quickmark: All quickmarks removed")
+end
+
 -- open file under cursor
 local function open_file()
     local str = api.nvim_get_current_line()
@@ -104,6 +121,8 @@ end
 return {
     quickmarks_list = quickmarks_list,
     quickmark_add = quickmark_add,
+    quickmark_remove = quickmark_remove,
+    quickmarks_removeall = quickmarks_removeall,
     close_window = window_utils.close_window,
     move_cursor = window_utils.move_cursor,
     open_file = open_file,

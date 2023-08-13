@@ -18,7 +18,7 @@ function! QuickmarkComplete(ArgLead, CmdLine, CursorPos)
     " CmdLine: string to be completed (string)
     " CursorPos: position of cursor (number)
 
-    let candidates = ['list', 'add']
+    let candidates = ['list', 'add', 'remove', 'removeAll']
 
     " filter the candidates based on the input
     let filtered_candidates = filter(candidates, 'v:val =~# "^" . escape(a:ArgLead, "\\")')
@@ -32,6 +32,10 @@ function! QuickmarkCmd(...)
         execute "lua require'quickmark'.quickmarks_list()" 
     elseif a:1 == "add"
         execute "lua require'quickmark'.quickmark_add()" 
+    elseif a:1 == "remove"
+        execute "lua require'quickmark'.quickmark_remove()"
+    elseif a:1 == "removeAll"
+        execute "lua require'quickmark'.quickmarks_removeall()"
     else 
         " i give you completion and you manage to get here
         " wow
@@ -40,6 +44,11 @@ function! QuickmarkCmd(...)
         echohl None
     endif
 endfunction
+
+nnoremap <silent> <Leader>qq :Quickmark list<CR>
+nnoremap <silent> <Leader>qa :Quickmark add<CR>
+nnoremap <silent> <Leader>qd :Quickmark remove<CR>
+nnoremap <silent> <Leader>qr :Quickmark removeAll<CR>
 
 let &cpo = s:save_cpo " restore the options
 unlet s:save_cpo
