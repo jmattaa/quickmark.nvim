@@ -20,7 +20,6 @@ local function display_quickmarks(filename)
             window_utils.print_to_buf(quickmarks[i], startl, endl)
         end
     end
-    print(quickmarks)
 end
 
 local function quickmarks_list()
@@ -88,12 +87,10 @@ local function quickmark_add()
             return
         elseif quickmarks[i] == "" then -- remove the first initial empty string
             table.remove(quickmarks, i)
-            table.save_file(quickmarks, quickmarks_f)
         end
     end
 
     table.insert(quickmarks, filename)
-    table.save_file(quickmarks, quickmarks_f)
     print(filename .. " added")
 end
 
@@ -103,7 +100,6 @@ local function quickmark_remove()
     for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
-            table.save_file(quickmarks, quickmarks_f)
             print(filename .. "removed from quickmarks")
             break
         end
@@ -112,8 +108,13 @@ end
 
 local function quickmarks_removeall()
     quickmarks = { "" }
-    table.save_file(quickmarks, quickmarks_f)
+    os.remove(quickmarks_f)
     print("Quickmark: All quickmarks removed")
+end
+
+local function quickmarks_save()
+    table.save_file(quickmarks, quickmarks_f)
+    print("Quickmark: quickmarks saved")
 end
 
 -- open file under cursor
@@ -135,4 +136,5 @@ return {
     close_window = window_utils.close_window,
     move_cursor = window_utils.move_cursor,
     open_file = open_file,
+    quickmarks_save = quickmarks_save,
 }
