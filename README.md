@@ -111,7 +111,3 @@ These mappings can be customized se ***[Usage](#usage)***
 - [@jmattaa](https://github.com/jmattaa)
 
 
-<a href="https://dotfyle.com/plugins/jmattaa/quickmark.nvim">
-  <img src="https://dotfyle.com/plugins/jmattaa/quickmark.nvim/shield" />
-</a>
-
