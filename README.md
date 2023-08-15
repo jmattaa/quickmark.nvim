@@ -74,29 +74,6 @@ vim.keymap.set('n', '<leader>qr', quickmark.quickmark_removeAll, {})
 
 ## Default Mappings
 
-<style>
-  .styled-table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  .styled-table th, .styled-table td {
-    padding: 10px 15px;
-  }
-
-  .styled-table tr:nth-child(odd) {
-    background-color: #f2f2f2;
-  }
-
-  .styled-table tr:nth-child(even) {
-    background-color: #e0e0e0;
-  }
-
-</style>
-
-
 ### Keystrokes in quickmarks window
 
 The default keys you can use to navigate and handle the quickmaps window 
