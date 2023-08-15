@@ -4,10 +4,11 @@ local window_utils = require("quickmark.window_utils")
 local utils = require("quickmark.utils")
 local mappings = require("quickmark.mappings")
 
+local quickmarks_f = ".quickmarks"
 -- array with all quickmarks
 -- lua calls it table eww
 -- it's ARRAY
-local quickmarks = { "" }
+local quickmarks = table.load_file(quickmarks_f) or { "" }
 
 local function display_quickmarks(filename)
     for i = 0, #quickmarks do -- to get lenght of a "table" (ARRAY!!) we use #
@@ -19,6 +20,7 @@ local function display_quickmarks(filename)
             window_utils.print_to_buf(quickmarks[i], startl, endl)
         end
     end
+    print(quickmarks)
 end
 
 local function quickmarks_list()
@@ -86,10 +88,12 @@ local function quickmark_add()
             return
         elseif quickmarks[i] == "" then -- remove the first initial empty string
             table.remove(quickmarks, i)
+            table.save_file(quickmarks, quickmarks_f)
         end
     end
 
     table.insert(quickmarks, filename)
+    table.save_file(quickmarks, quickmarks_f)
     print(filename .. " added")
 end
 
@@ -99,6 +103,7 @@ local function quickmark_remove()
     for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
+            table.save_file(quickmarks, quickmarks_f)
             print(filename .. "removed from quickmarks")
             break
         end
@@ -107,6 +112,7 @@ end
 
 local function quickmarks_removeall()
     quickmarks = { "" }
+    table.save_file(quickmarks, quickmarks_f)
     print("Quickmark: All quickmarks removed")
 end
 
