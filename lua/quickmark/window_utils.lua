@@ -11,6 +11,10 @@ local win_height = math.ceil(height * 0.4 - 4)
 local win_width = math.ceil(width * 0.7)
 
 local function open_window()
+    if win ~= nil then -- if there is an already open window we jusst return nil
+        return nil
+    end
+
     -- create emtpy buffer for the window
     buf = api.nvim_create_buf(false, true)
     local border_buf = api.nvim_create_buf(false, true) -- create the border
@@ -62,6 +66,7 @@ end
 local function close_window()
     api.nvim_win_close(win, true)
     buf = nil
+    win = nil
 end
 
 -- startl starting line index
@@ -97,7 +102,7 @@ local function set_mappings()
     -- so we only use ours
     local other_chars = {
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-        's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '
     }
 
     for _, v in ipairs(other_chars) do

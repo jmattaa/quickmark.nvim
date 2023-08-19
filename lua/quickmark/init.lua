@@ -25,6 +25,10 @@ end
 local function quickmarks_list()
     local filename = vim.fn.expand("%")
     local win = window_utils.open_window()
+    if win == nil then
+        return
+    end
+
     window_utils.print_to_buf(
         "Press " .. utils.get_key_fom_val(mappings.mappings, 'close_window()') .. " to exit",
         0, -1
