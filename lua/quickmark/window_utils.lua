@@ -7,8 +7,8 @@ local win
 local width = api.nvim_get_option("columns")
 local height = api.nvim_get_option("lines")
 
-local win_height = math.ceil(height * 0.4 - 4)
-local win_width = math.ceil(width * 0.7)
+local win_height = 1
+local win_width = 1
 
 local function open_window()
     if win ~= nil then -- if there is an already open window we jusst return nil
@@ -22,7 +22,7 @@ local function open_window()
     api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
 
     -- starting position center
-    local row = math.ceil((height - win_height) / 2 - 1)
+    local row = math.ceil((height - win_height) / 2)
     local col = math.ceil((width - win_width) / 2)
 
     -- set some options
@@ -47,7 +47,7 @@ local function open_window()
     local border_lines = { '╭' .. string.rep('─', win_width) .. '╮' }
     local middle_line = '│' .. string.rep(' ', win_width) .. '│'
     -- go until before searchbar height
-    for i = 1, win_height do
+    for _ = 1, win_height do
         table.insert(border_lines, middle_line)
     end
     table.insert(border_lines, '╰' .. string.rep('─', win_width) .. '╯')
@@ -56,9 +56,11 @@ local function open_window()
     -- show the border win
     api.nvim_open_win(border_buf, true, border_opts)
 
-    -- and finally create it with buffer attached
+    -- and create it with buffer attached
     win = api.nvim_open_win(buf, true, opts)
     api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "' .. border_buf)
+
+    api.nvim_win_set_option(win, 'cursorline', true) -- Highlight the line the cursor is on
 
     return { win = win, buf = buf }
 end
@@ -67,6 +69,37 @@ local function close_window()
     api.nvim_win_close(win, true)
     buf = nil
     win = nil
+end
+
+local function resize_window()
+    -- Get the current buffer
+    local current_buffer = vim.api.nvim_get_current_buf()
+
+    -- Get the lines of text in the buffer
+    local lines = vim.api.nvim_buf_get_lines(current_buffer, 0, -1, false)
+
+    -- Find the longest line's length
+    local content_width = 0
+    for _, line in ipairs(lines) do
+        local line_width = vim.fn.strdisplaywidth(line)
+        if line_width > content_width then
+            content_width = line_width + 3
+        end
+    end
+
+    local content_height = vim.fn.line("$")
+
+    if win_width and content_width ~= win_width then
+        win_width = content_width
+    end
+
+    if win_height and content_height ~= win_height then
+        win_height = content_height
+    end
+
+    -- aply changes
+    close_window()
+    open_window()
 end
 
 -- startl starting line index
@@ -84,14 +117,11 @@ end
 
 local function move_cursor(dir)
     local new_pos = api.nvim_win_get_cursor(win)[1] + dir
-    if vim.fn.line("$") < 4 then -- list empty don't move cursor
-        new_pos = 1              -- for some reason 1 is the first not 0
-    else                         -- list not empty cursor first line is 3
-        if new_pos >= vim.fn.line("$") then
-            new_pos = vim.fn.line("$")
-        elseif new_pos < 4 then
-            new_pos = 4
-        end
+
+    if new_pos >= vim.fn.line("$") then
+        new_pos = vim.fn.line("$")
+    elseif new_pos <= 1 then
+        new_pos = 1
     end
 
     api.nvim_win_set_cursor(win, { new_pos, 0 })
@@ -119,6 +149,7 @@ end
 return {
     open_window = open_window,
     close_window = close_window,
+    resize_window = resize_window,
     move_cursor = move_cursor,
     print_to_buf = print_to_buf,
     set_mappings = set_mappings,

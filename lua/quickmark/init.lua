@@ -8,68 +8,38 @@ local quickmarks_f = ".quickmarks"
 -- array with all quickmarks
 -- lua calls it table eww
 -- it's ARRAY
-local quickmarks = table.load_file(quickmarks_f) or { "" }
+local initial_msg = "   -- EMPTY --"
+local quickmarks = table.load_file(quickmarks_f) or { initial_msg }
 
 local function display_quickmarks(filename)
-    for i = 0, #quickmarks do -- to get lenght of a "table" (ARRAY!!) we use #
+    local startl = 0
+    for i = 1, #quickmarks do -- to get lenght of a "table" (ARRAY!!) we use #
         -- well thats very readable
         -- imma stay with c in the future
-        local startl = i + 3              -- shift down lines gotta make this a var
-        local endl = startl + 1
-        if quickmarks[i] ~= filename then -- dont show the current line
-            window_utils.print_to_buf(quickmarks[i], startl, endl)
+        if quickmarks[i] ~= filename or #quickmarks == 1 then -- dont show the current line
+            window_utils.print_to_buf(quickmarks[i], startl, -1)
+            startl = startl + 1
         end
     end
 end
 
 local function quickmarks_list()
-    local filename = vim.fn.expand("%")
-    local win = window_utils.open_window()
-    if win == nil then
-        return
-    end
+    local filename = vim.fn.expand('%:~:.')
+    window_utils.open_window()
 
-    window_utils.print_to_buf(
-        "Press " .. utils.get_key_fom_val(mappings.mappings, 'close_window()') .. " to exit",
-        0, -1
-    )
-    window_utils.print_to_buf(
-        utils.center_str("Quickmarks"),
-        1, -1
-    )
-    -- separator line
-    local bufid = vim.fn.bufwinid(win.buf)
-    local bufw = vim.fn.winwidth(bufid)
-    window_utils.print_to_buf(
-        string.rep('─', bufw),
-        2, -1
-    )
-
-    api.nvim_buf_add_highlight(
-        win.buf,
-        -1,
-        "QuickmarkInfo",
-        0,
-        0, -1
-    )
-    api.nvim_buf_add_highlight(
-        win.buf,
-        -1,
-        "QuickmarkTitle",
-        1,
-        0, -1
-    )
-
+    -- very inneficient ik (gotta fix this)
+    -- !TODO: FIX ITTTTT!
     display_quickmarks(filename)
+    window_utils.resize_window()
+    display_quickmarks(filename)
+
     -- set cursor to right pos
     window_utils.move_cursor(0)
     window_utils.set_mappings()
-
-    api.nvim_win_set_option(win.win, 'cursorline', true) -- Highlight the line the cursor is on
 end
 
 local function quickmark_add()
-    local filename = vim.fn.expand('%')
+    local filename = vim.fn.expand('%:~:.')
 
     -- if its empty don't add it
     if filename == "" then
@@ -89,7 +59,7 @@ local function quickmark_add()
                 echohl None
             ]]
             return
-        elseif quickmarks[i] == "" then -- remove the first initial empty string
+        elseif quickmarks[i] == initial_msg then -- remove the first initial empty string
             table.remove(quickmarks, i)
         end
     end
@@ -104,7 +74,7 @@ local function quickmark_remove()
     for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
-            print(filename .. "removed from quickmarks")
+            print(filename .. " removed from quickmarks")
             break
         end
     end
@@ -124,7 +94,7 @@ end
 -- open file under cursor
 local function open_file()
     local str = api.nvim_get_current_line()
-    if #quickmarks < 1 or str == "" then -- list is empty
+    if #quickmarks < 1 or str == initial_msg then -- list is empty
         window_utils.close_window()
         return
     end
