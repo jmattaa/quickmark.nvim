@@ -7,7 +7,7 @@
 
 </div>
 
-## Installation
+# Installation
 
 Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
@@ -37,7 +37,7 @@ return {
 
 
     
-## Usage
+# Usage
 
 Use quickmark by typing `:Quickmark list<cr>` or by using the default keybinding `<leader>qq`
 this will create a floating window and show all your quickmarks.
@@ -79,7 +79,7 @@ vim.keymap.set('n', '<leader>qs', quickmark.quickmarks_save, {})
 
 
 
-## Default Mappings
+# Default Mappings
 
 ### Keystrokes in quickmarks window
 
@@ -106,7 +106,7 @@ These mappings can be customized se ***[Usage](#usage)***
 | \<leader\>qr     | Empty the quickmarks list                            |
 | \<leader\>qs     | Save the quickmars list in a `.quickmarks` file      |
 
-## Authors
+# Authors
 
 - [@jmattaa](https://github.com/jmattaa)
 
