@@ -4,7 +4,7 @@
 ###### Quickly navigate your project 
 
 <video width="100%" controls>
-  <source src="assets/demo.mov" type="video/mp4">
+  <source src="assets/demo.mp4" type="video/mp4">
 </video>
 
 </div>
