@@ -76,7 +76,7 @@ end
 
 -- removes current file from quickmarks
 local function quickmark_remove()
-    local filename = vim.fn.expand('%')
+    local filename = vim.fn.expand('%:~:.')
     for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
