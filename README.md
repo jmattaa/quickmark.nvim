@@ -3,9 +3,11 @@
 # Quickmark.nvim
 ###### Quickly navigate your project 
 
-</div>
+<video width="100%" controls>
+  <source src="assets/demo.mov" type="video/mp4">
+</video>
 
-![demo](./assets/demo.gif)
+</div>
 
 ## Installation
 
