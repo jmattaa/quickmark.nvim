@@ -68,6 +68,12 @@ local function quickmark_add()
     print(filename .. " added")
 end
 
+local function quickmarks_removeall()
+    quickmarks = { initial_msg }
+    os.remove(quickmarks_f)
+    print("Quickmark: All quickmarks removed")
+end
+
 -- removes current file from quickmarks
 local function quickmark_remove()
     local filename = vim.fn.expand('%')
@@ -78,12 +84,11 @@ local function quickmark_remove()
             break
         end
     end
-end
-
-local function quickmarks_removeall()
-    quickmarks = { "" }
-    os.remove(quickmarks_f)
-    print("Quickmark: All quickmarks removed")
+    -- it's the last quickmark so we remove EVERYTHING 
+    -- so the file that is left behind
+    if #quickmarks == 0 then
+        quickmarks_removeall()
+    end
 end
 
 local function quickmarks_save()
