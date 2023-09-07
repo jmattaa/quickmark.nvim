@@ -110,7 +110,6 @@ end
 local function move_file(dir)
     -- take the file the cursor is on
     local current_file = api.nvim_get_current_line()
-    print(current_file)
     if #quickmarks < 1 or current_file == initial_msg then -- list is empty
         window_utils.close_window()
         return
@@ -131,7 +130,7 @@ local function move_file(dir)
             echohl None
         ]]
         return
-    elseif idx <= 0 or idx > #quickmarks then
+    elseif idx + dir <= 0 or idx + dir > #quickmarks then
         return
     end
     -- update the list
@@ -143,7 +142,7 @@ local function move_file(dir)
     -- update the window
     window_utils.close_window()
     quickmarks_list()
-    window_utils.move_cursor(dir) -- me smarte
+    window_utils.set_cursor(idx + dir) -- me smarte
     quickmarks_save()
 end
 

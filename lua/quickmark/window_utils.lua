@@ -127,6 +127,15 @@ local function move_cursor(dir)
     api.nvim_win_set_cursor(win, { new_pos, 0 })
 end
 
+local function set_cursor(new_pos)
+    if new_pos >= vim.fn.line("$") then
+        new_pos = vim.fn.line("$")
+    elseif new_pos <= 1 then
+        new_pos = 1
+    end
+    api.nvim_win_set_cursor(win, { new_pos, 0 })
+end
+
 local function set_mappings()
     -- remove the function of all the chars
     -- so we only use ours
@@ -151,6 +160,7 @@ return {
     close_window = close_window,
     resize_window = resize_window,
     move_cursor = move_cursor,
+    set_cursor = set_cursor,
     print_to_buf = print_to_buf,
     set_mappings = set_mappings,
     win = win,
