@@ -75,6 +75,16 @@ These mappings can be customized se ***[Usage](#usage)***
 | \<leader\>qr     | Empty the quickmarks list                            |
 | \<leader\>qs     | Save the quickmars list in a `.quickmarks` file      |
 
+# Shortcuts
+
+A shortcut in `Quickmark` is a quick way to give the quickmarks a binding to 
+quickly access it. To give a file a shortcut you can run 
+`:Quickmark shortcut '<shortcut>'` where `<shortcut>` is the key you want to 
+accociate the file with. The default binding for creating a shortcut is 
+`<leader>qn<shortcut>`. Where `<shortcut>` is the key for the file.
+
+To quickly move to the created shortcut use `<leader>qo<shortcut>`.
+
 # Help
 For more help you can find the full documentation in the `quickmark` docs by running `:help quickmark`
 

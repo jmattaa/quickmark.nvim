@@ -6,8 +6,9 @@ Table of Contents					      *quickmark.nvim*
 
 1. Usage                                                     |quickmark.usage|
 2. Default Mappings					  |quickmark.mappings|
-3. Authors                                                 |quickmark.authors|
-4. Links						     |quickmark.links|
+3. Shortcuts					 	 |quickmark.shortcuts|
+4. Authors                                                 |quickmark.authors|
+5. Links						     |quickmark.links|
 
 
 ==============================================================================
@@ -53,7 +54,7 @@ Using Lua:
 
 
 ==============================================================================
-3. Default Mappings                                      *quickmark.mappings*
+2. Default Mappings                                      *quickmark.mappings*
 
 
 KEYSTROKES IN QUICKMARKS WINDOW ~
@@ -90,6 +91,17 @@ These mappings can be customized se **Usage**
 
      <leader>qs     Save the quickmars list in a .quickmarks file
   -----------------------------------------------------------------------
+
+==============================================================================
+3. Shortcuts						 *quickmark.shortcuts*
+
+A shortcut in `Quickmark` is a quick way to give the quickmarks a binding to 
+quickly access it. To give a file a shortcut you can run 
+`:Quickmark shortcut '<shortcut>'` where `<shortcut>` is the key you want to 
+accociate the file with. The default binding for creating a shortcut is 
+`<leader>qn<shortcut>`. Where `<shortcut>` is the key for the file.
+
+To quickly move to the created shortcut use `<leader>qo<shortcut>`.
 
 ==============================================================================
 4. Authors                                                 *quickmark.authors*
