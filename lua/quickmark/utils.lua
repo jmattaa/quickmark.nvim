@@ -28,31 +28,37 @@ function table.serialize(tbl)
     return str
 end
 
--- Save a table to a file
+-- Me good english table in a table into a file
+-- Save multiple tables which are in a table in a file
 function table.save_file(tbl, filename)
-    local serializedTable = table.serialize(tbl)
     local file = io.open(filename, "w")
     if file == nil then
         return
-    else
-        file:write(serializedTable)
-        file:close()
     end
+
+    for i = 1, #tbl do
+        local serializedTable = table.serialize(tbl[i])
+        file:write(serializedTable, "\n") -- add newline after line
+    end
+
+    file:close()
 end
 
--- Load a table from a file
+-- Load all tables in a file. Tables are on one line each
 function table.load_file(filename)
     local file = io.open(filename, "r")
     if file then
-        local serializedTable = file:read("*a")
+        local tables = {}
+        for line in file:lines() do
+            local loadedTable = load("return " .. line)()
+            table.insert(tables, loadedTable)
+        end
         file:close()
-        local loadedTable = load("return " .. serializedTable)()
-        return loadedTable
+        return tables
     else
         return nil
     end
 end
-
 
 return {
     center_str = center_str,

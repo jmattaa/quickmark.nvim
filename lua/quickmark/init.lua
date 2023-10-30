@@ -9,15 +9,10 @@ local quickmarks_f = ".quickmarks"
 -- lua calls it table eww
 -- it's ARRAY
 local initial_msg = "   -- EMPTY --"
-local quickmarks = table.load_file(quickmarks_f) or { initial_msg }
-local shortcuts = {}
-if quickmarks[0] == initial_msg then
-    shortcuts = {}
-else
-    for i = 1, #quickmarks do
-        table.insert(shortcuts, '')
-    end
-end
+local quickmarks_loaded_file = table.load_file(quickmarks_f) or {{ initial_msg }, {}}
+
+local quickmarks = quickmarks_loaded_file[1] -- why u starting at 1 :(
+local shortcuts = quickmarks_loaded_file[2]
 
 local function display_quickmarks(filename)
     local startl = 0
@@ -59,7 +54,7 @@ local function quickmark_add()
         return
     end
 
-    for i = 0, #quickmarks do
+    for i = 1, #quickmarks do
         if quickmarks[i] == filename then
             vim.cmd [[
                 echohl ErrorMsg
@@ -83,7 +78,7 @@ local function quickmark_shortcut(key)
 
     local shortcut_index = -1
 
-    for i = 0, #quickmarks do
+    for i = 1, #quickmarks do
         if quickmarks[i] == filename then
             shortcut_index = i
         end
@@ -113,7 +108,7 @@ end
 -- removes current file from quickmarks
 local function quickmark_remove()
     local filename = vim.fn.expand('%:~:.')
-    for i = 0, #quickmarks do
+    for i = 1, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
             table.remove(shortcuts, i)
@@ -129,7 +124,7 @@ local function quickmark_remove()
 end
 
 local function quickmarks_save()
-    table.save_file(quickmarks, quickmarks_f)
+    table.save_file({quickmarks, shortcuts}, quickmarks_f)
     print("Quickmark: quickmarks saved")
 end
 

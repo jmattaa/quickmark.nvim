@@ -43,7 +43,6 @@ function! QuickmarkCreateShortcut()
     endif
 
     execute 'Quickmark shortcut ' . "'" . shortcut . "'"
-    call QuickmarkSetKeymaps()
     echo "Quickmark: Added shortcut: " . shortcut 
 endfunction
 
