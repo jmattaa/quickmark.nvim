@@ -10,6 +10,14 @@ local quickmarks_f = ".quickmarks"
 -- it's ARRAY
 local initial_msg = "   -- EMPTY --"
 local quickmarks = table.load_file(quickmarks_f) or { initial_msg }
+local shortcuts = {}
+if quickmarks[0] == initial_msg then
+    shortcuts = {}
+else
+    for i = 1, #quickmarks do
+        table.insert(shortcuts, '')
+    end
+end
 
 local function display_quickmarks(filename)
     local startl = 0
@@ -65,11 +73,39 @@ local function quickmark_add()
     end
 
     table.insert(quickmarks, filename)
+    table.insert(shortcuts, '')
     print(filename .. " added")
+end
+
+local function quickmark_shortcut(key)
+    local filename = vim.fn.expand('%:~:.')
+    local shortcut = tostring(key)
+
+    local shortcut_index = -1
+
+    for i = 0, #quickmarks do
+        if quickmarks[i] == filename then
+            shortcut_index = i
+        end
+    end
+
+    -- there is no file in quickmark list
+    if shortcut_index == -1 then
+        quickmark_add()
+        shortcut_index = #quickmarks -- it is placed at the end
+    end
+
+    table.remove(shortcuts, shortcut_index)
+    table.insert(shortcuts, shortcut_index, shortcut)
+end
+
+local function quickmark_getShortcuts()
+    return { shortcuts, quickmarks }
 end
 
 local function quickmarks_removeall()
     quickmarks = { initial_msg }
+    shortcuts = {}
     os.remove(quickmarks_f)
     print("Quickmark: All quickmarks removed")
 end
@@ -80,6 +116,7 @@ local function quickmark_remove()
     for i = 0, #quickmarks do
         if quickmarks[i] == filename then
             table.remove(quickmarks, i)
+            table.remove(shortcuts, i)
             print(filename .. " removed from quickmarks")
             break
         end
@@ -149,6 +186,8 @@ end
 return {
     quickmarks_list = quickmarks_list,
     quickmark_add = quickmark_add,
+    quickmark_shortcut = quickmark_shortcut,
+    quickmark_getShortcuts = quickmark_getShortcuts,
     quickmark_remove = quickmark_remove,
     quickmarks_removeall = quickmarks_removeall,
     close_window = window_utils.close_window,

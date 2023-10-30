@@ -18,7 +18,7 @@ function! QuickmarkComplete(ArgLead, CmdLine, CursorPos)
     " CmdLine: string to be completed (string)
     " CursorPos: position of cursor (number)
 
-    let candidates = ['list', 'add', 'save', 'remove', 'removeAll']
+    let candidates = ['list', 'add', 'shortcut', 'save', 'remove', 'removeAll']
 
     " filter the candidates based on the input
     let filtered_candidates = filter(candidates, 'v:val =~# "^" . escape(a:ArgLead, "\\")')
@@ -27,15 +27,36 @@ function! QuickmarkComplete(ArgLead, CmdLine, CursorPos)
     return filtered_candidates
 endfunction
 
+function! QuickmarkSetKeymaps()
+    let i = 0
+    let [shortcuts, quickmarks] = luaeval("require'quickmark'.quickmark_getShortcuts()")
+    for shortcut in shortcuts
+        execute 'nnoremap <silent> <leader>q' . shortcut . ' :e ' . quickmarks[i] . '<CR>'
+        let i = i + 1
+    endfor
+endfunction
+
 function! QuickmarkCmd(...)
     if a:1 == "list" 
         execute "lua require'quickmark'.quickmarks_list()" 
+        call QuickmarkSetKeymaps()
     elseif a:1 == "add"
         execute "lua require'quickmark'.quickmark_add()" 
+        call QuickmarkSetKeymaps()
+    elseif a:1 == "shortcut"
+        if a:0 < 2
+            echohl ErrorMsg
+            echo 'Quickmark: Provide a shortcut key for the shortcut'
+            echohl None
+            return
+        endif
+        execute "lua require'quickmark'.quickmark_shortcut(" . a:2 . ")"
     elseif a:1 == "remove"
         execute "lua require'quickmark'.quickmark_remove()"
+        call QuickmarkSetKeymaps()
     elseif a:1 == "removeAll"
         execute "lua require'quickmark'.quickmarks_removeall()"
+        call QuickmarkSetMappings()
     elseif a:1 == "save"
         execute "lua require'quickmark'.quickmarks_save()"
     else 
@@ -57,3 +78,4 @@ let &cpo = s:save_cpo " restore the options
 unlet s:save_cpo
 
 let g:quickmark_init = 1
+
