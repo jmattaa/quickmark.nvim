@@ -31,9 +31,20 @@ function! QuickmarkSetKeymaps()
     let i = 0
     let [shortcuts, quickmarks] = luaeval("require'quickmark'.quickmark_getShortcuts()")
     for shortcut in shortcuts
-        execute 'nnoremap <silent> <leader>q' . shortcut . ' :e ' . quickmarks[i] . '<CR>'
+        execute 'nnoremap <silent> <leader>qo' . shortcut . ' :e ' . quickmarks[i] . '<CR>'
         let i = i + 1
     endfor
+endfunction
+
+function! QuickmarkCreateShortcut()
+    let shortcut = nr2char(getchar())
+    if shortcut == ''
+        return
+    endif
+
+    execute 'Quickmark shortcut ' . "'" . shortcut . "'"
+    call QuickmarkSetKeymaps()
+    echo "Quickmark: Added shortcut: " . shortcut 
 endfunction
 
 function! QuickmarkCmd(...)
@@ -56,7 +67,7 @@ function! QuickmarkCmd(...)
         call QuickmarkSetKeymaps()
     elseif a:1 == "removeAll"
         execute "lua require'quickmark'.quickmarks_removeall()"
-        call QuickmarkSetMappings()
+        call QuickmarkSetKeymaps()
     elseif a:1 == "save"
         execute "lua require'quickmark'.quickmarks_save()"
     else 
@@ -73,6 +84,9 @@ nnoremap <silent> <Leader>qa :Quickmark add<CR>
 nnoremap <silent> <Leader>qd :Quickmark remove<CR>
 nnoremap <silent> <Leader>qr :Quickmark removeAll<CR>
 nnoremap <silent> <Leader>qs :Quickmark save<CR>
+nnoremap <silent> <Leader>qn :call QuickmarkCreateShortcut()<CR>
+
+call QuickmarkSetKeymaps()
 
 let &cpo = s:save_cpo " restore the options
 unlet s:save_cpo
