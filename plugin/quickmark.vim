@@ -80,8 +80,8 @@ endfunction
 
 nnoremap <silent> <Leader>qq :Quickmark list<CR>
 nnoremap <silent> <Leader>qa :Quickmark add<CR>
-nnoremap <silent> <Leader>qd :Quickmark remove<CR>
-nnoremap <silent> <Leader>qr :Quickmark removeAll<CR>
+nnoremap <silent> <Leader>qr :Quickmark remove<CR>
+nnoremap <silent> <Leader>qR :Quickmark removeAll<CR>
 nnoremap <silent> <Leader>qs :Quickmark save<CR>
 nnoremap <silent> <Leader>qn :call QuickmarkCreateShortcut()<CR>
 
