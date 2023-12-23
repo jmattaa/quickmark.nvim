@@ -3,8 +3,8 @@
 # Quickmark.nvim
 ###### Quickly navigate your project 
 
-<a href="https://dotfyle.com/plugins/{owner}/{name}">
-  <img src="https://dotfyle.com/plugins/{owner}/{name}/shield" />
+<a href="https://dotfyle.com/plugins/jmattaa/quickmark.nvim">
+  <img src="https://dotfyle.com/plugins/jmattaa/quickmark.nvim/shield" />
 </a>
 
 ![demo](./assets/demo.gif)
