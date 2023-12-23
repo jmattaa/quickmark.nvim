@@ -7,6 +7,11 @@
 
 </div>
 
+<a href="https://dotfyle.com/plugins/jmattaa/quickmark.nvim">
+  <img src="https://dotfyle.com/plugins/jmattaa/quickmark.nvim/shield" />
+</a>
+
+
 # Installation
 
 Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
