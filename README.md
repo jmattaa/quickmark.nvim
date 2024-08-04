@@ -55,28 +55,8 @@ the `nvim` command in.
 This is the default configuration. If you dont want to change it there is no need
 to write the configuration
 
-Using VimL:
-
-```vim
-    " Using the Quickmark commands
-    nnoremap <leader>qq :Quickmark list<CR>
-    nnoremap <leader>qa :Quickmark add<CR>
-    nnoremap <leader>qr :Quickmark remove<CR>
-    nnoremap <leader>qR :Quickmark removeAll<CR>
-    nnoremap <leader>qs :Quickmark save<CR>
-    
-    " Using Lua functions
-    nnoremap <leader>qq :lua require'quickmark'.quickmarks_list()<CR>
-    nnoremap <leader>qa :lua require'quickmark'.quickmark_add()<CR>
-    nnoremap <leader>qr :lua require'quickmark'.quickmark_remove()<CR>
-    nnoremap <leader>qR :lua require'quickmark'.quickmarks_removeall()<CR>
-    nnoremap <leader>qs :lua require'quickmark'.quickmarks_save()<CR>
-```
-
-Using Lua:
-
 ```lua
-    local quickmark = require('quickmark').setup({
+    require('quickmark').setup({
         key_mappings = {
             list = '<leader>qq',
             add = '<leader>qa',
@@ -88,6 +68,11 @@ Using Lua:
         },
     })
 ```
+
+You can call the `setup` function without parameters if you want the default 
+keybindings. The `setup` function must be called to initialize quickmark if you
+are not calling it in for example the `config` option of lazy.nvim the plugin 
+will not initalize and it will be unusable. :(
 
 
 For more run the `:help quickmark.usage` command
