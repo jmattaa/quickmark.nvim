@@ -72,13 +72,13 @@ local function close_window()
 end
 
 local function resize_window()
-    -- Get the current buffer
+    -- get the current buffer
     local current_buffer = vim.api.nvim_get_current_buf()
 
-    -- Get the lines of text in the buffer
+    -- get the lines of text in the buffer
     local lines = vim.api.nvim_buf_get_lines(current_buffer, 0, -1, false)
 
-    -- Find the longest line's length
+    -- find the longest line's length
     local content_width = 0
     for _, line in ipairs(lines) do
         local line_width = vim.fn.strdisplaywidth(line)
@@ -140,8 +140,8 @@ local function set_mappings()
     -- remove the function of all the chars
     -- so we only use ours
     local other_chars = {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-        's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+        'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '
     }
 
     for _, v in ipairs(other_chars) do
@@ -150,11 +150,12 @@ local function set_mappings()
         api.nvim_buf_set_keymap(buf, 'n', '<c-' .. v .. '>', '', { nowait = true, noremap = true, silent = true })
     end
     for k, v in pairs(mappings.mappings) do
-        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require\'quickmark\'.' .. v .. '<cr>', {
+        api.nvim_buf_set_keymap(buf, 'n', k, ':lua require"quickmark".' .. v .. '<CR>', {
             nowait = true, noremap = true, silent = true
         })
     end
 end
+
 return {
     open_window = open_window,
     close_window = close_window,

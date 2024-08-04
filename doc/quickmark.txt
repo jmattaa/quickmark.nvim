@@ -44,12 +44,17 @@ Using VimL:
 Using Lua:
 
 >lua
-    local quickmark = require('quickmark')
-    vim.keymap.set('n', '<leader>qq', quickmark.quickmarks_list, {})
-    vim.keymap.set('n', '<leader>qa', quickmark.quickmark_add, {}) 
-    vim.keymap.set('n', '<leader>qd', quickmark.quickmark_remove, {}) 
-    vim.keymap.set('n', '<leader>qr', quickmark.quickmark_removeAll, {})
-    vim.keymap.set('n', '<leader>qs', quickmark.quickmarks_save, {})
+    local quickmark = require('quickmark').setup({
+        key_mappings = {
+            list = '<leader>qq',
+            add = '<leader>qa',
+            remove = '<leader>qr',
+            remove_all = '<leader>qR',
+            save = '<leader>qs',
+            shortcut = '<leader>qn',
+            open_shortcut = '<leader>qo',
+        },
+    })
 <
 
 

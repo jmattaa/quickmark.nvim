@@ -62,6 +62,28 @@ local function quickmark_getShortcuts()
     return { shortcuts, quickmarks }
 end
 
+local function create_shortcut()
+    local shortcut = vim.fn.nr2char(vim.fn.getchar())
+    if shortcut == '' then
+        return
+    end
+
+    quickmark_shortcut(shortcut)
+    print("Quickmark: Added shortcut: " .. shortcut)
+end
+
+local function open_shortcut()
+    local char = vim.fn.nr2char(vim.fn.getchar())
+    for i, shortcut in ipairs(shortcuts) do
+        if shortcut == char then
+            vim.cmd('edit ' .. quickmarks[i])
+            return
+        end
+    end
+    print("No quickmark found for shortcut: " .. char)
+end
+
+
 local function quickmarks_removeall()
     quickmarks = { constants.initial_msg }
     shortcuts = {}
@@ -96,6 +118,8 @@ return {
     quickmark_add = quickmark_add,
     quickmark_shortcut = quickmark_shortcut,
     quickmark_getShortcuts = quickmark_getShortcuts,
+    create_shortcut = create_shortcut,
+    open_shortcut = open_shortcut,
     quickmark_remove = quickmark_remove,
     quickmarks_removeall = quickmarks_removeall,
     quickmarks_save = quickmarks_save,

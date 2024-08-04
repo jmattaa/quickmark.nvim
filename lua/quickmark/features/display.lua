@@ -1,6 +1,6 @@
 require("quickmark.utils")
-local window_utils = require("quickmark.window_utils")
 local constants = require("quickmark.constants")
+local window_utils = require("quickmark.window_utils")
 
 local quickmarks_loaded_file = table.load_file(constants.quickmarks_f) or {{ constants.initial_msg }, {}}
 
