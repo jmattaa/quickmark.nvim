@@ -18,7 +18,7 @@ function! QuickmarkComplete(ArgLead, CmdLine, CursorPos)
     " CmdLine: string to be completed (string)
     " CursorPos: position of cursor (number)
 
-    let candidates = ['list', 'add', 'shortcut', 'save', 'remove', 'removeAll']
+    let candidates = ['list', 'add', 'shortcut', 'save', 'remove', 'remove_all']
 
     " filter the candidates based on the input
     let filtered_candidates = filter(candidates, 'v:val =~# "^" . escape(a:ArgLead, "\\")')
@@ -42,8 +42,7 @@ function! QuickmarkCmd(...)
         execute "lua require'quickmark'.quickmark_shortcut(" . a:2 . ")"
     elseif a:1 == "remove"
         execute "lua require'quickmark'.quickmark_remove()"
-        call QuickmarkSetKeymaps()
-    elseif a:1 == "removeAll"
+    elseif a:1 == "remove_all"
         execute "lua require'quickmark'.quickmarks_removeall()"
     elseif a:1 == "save"
         execute "lua require'quickmark'.quickmarks_save()"

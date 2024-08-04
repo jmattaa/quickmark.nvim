@@ -1,9 +1,22 @@
 local constants = require("quickmark.constants")
+local config = require("quickmark.config").options
 
 local quickmarks_loaded_file = table.load_file(constants.quickmarks_f) or {{ constants.initial_msg }, {}}
 
 local quickmarks = quickmarks_loaded_file[1]
 local shortcuts = quickmarks_loaded_file[2]
+
+local function quickmarks_save()
+    table.save_file({quickmarks, shortcuts}, constants.quickmarks_f)
+    print("Quickmark: quickmarks saved")
+end
+
+
+local function autosave()
+    if config.autosave then
+        quickmarks_save()
+    end
+end
 
 local function quickmark_add()
     local filename = vim.fn.expand('%:~:.')
@@ -34,6 +47,7 @@ local function quickmark_add()
     table.insert(quickmarks, filename)
     table.insert(shortcuts, '')
     print(filename .. " added")
+    autosave()
 end
 
 local function quickmark_shortcut(key)
@@ -64,12 +78,13 @@ end
 
 local function create_shortcut()
     local shortcut = vim.fn.nr2char(vim.fn.getchar())
-    if shortcut == '' then
+    if shortcut == '' or shortcut == "" then
         return
     end
 
     quickmark_shortcut(shortcut)
     print("Quickmark: Added shortcut: " .. shortcut)
+    autosave()
 end
 
 local function open_shortcut()
@@ -89,6 +104,7 @@ local function quickmarks_removeall()
     shortcuts = {}
     os.remove(constants.quickmarks_f)
     print("Quickmark: All quickmarks removed")
+    autosave()
 end
 
 -- removes current file from quickmarks
@@ -105,13 +121,10 @@ local function quickmark_remove()
     -- it's the last quickmark so we remove EVERYTHING
     -- so the file that is left behind
     if #quickmarks == 0 then
-        quickmarks_removeall()
+        quickmarks_removeall() -- autosave will be called here
+    else
+        autosave()
     end
-end
-
-local function quickmarks_save()
-    table.save_file({quickmarks, shortcuts}, constants.quickmarks_f)
-    print("Quickmark: quickmarks saved")
 end
 
 return {

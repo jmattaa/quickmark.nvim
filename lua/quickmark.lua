@@ -1,23 +1,11 @@
 local M = {}
 
-local default_config = {
-    key_mappings = {
-        list = '<leader>qq',
-        add = '<leader>qa',
-        remove = '<leader>qr',
-        remove_all = '<leader>qR',
-        save = '<leader>qs',
-        shortcut = '<leader>qn',
-        open_shortcut = '<leader>qo',
-    },
-}
-
-M.config = default_config
+local config = require("quickmark.config")
 
 function M.setup(user_config)
-    M.config = vim.tbl_deep_extend("force", default_config, user_config or {})
+    config.setup(user_config)
 
-    for action, mapping in pairs(M.config.key_mappings) do
+    for action, mapping in pairs(config.options.key_mappings) do
         if action == "shortcut" then
             vim.api.nvim_set_keymap('n', mapping,
                 ':lua require("quickmark").create_shortcut()<CR>',
