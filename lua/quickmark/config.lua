@@ -16,7 +16,9 @@ M.options = {
 }
 
 function M.setup(user_config)
-    M.options = vim.tbl_deep_extend("force", M.options, user_config or {})
+    if user_config then
+        for k, v in pairs(user_config) do M.options[k] = v end
+    end
 end
 
 return M
