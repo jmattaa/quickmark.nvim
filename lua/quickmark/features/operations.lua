@@ -21,5 +21,4 @@ end
 
 return {
     open_file = open_file,
-    move_file = move_file,
 }
