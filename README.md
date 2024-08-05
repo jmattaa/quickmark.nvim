@@ -53,14 +53,16 @@ to write the configuration
 
 ```lua
     require('quickmark').setup({
+        messages = false, -- if quickmark should print what has been done such as save or add
+        autosave = true, -- if quickmarks should be autosaved to `.quickmarks` if they are changed
         key_mappings = {
-            list = '<leader>qq',
-            add = '<leader>qa',
-            remove = '<leader>qr',
-            remove_all = '<leader>qR',
-            save = '<leader>qs',
-            shortcut = '<leader>qn',
-            open_shortcut = '<leader>qo',
+            list = '<leader>qq', -- open window with quickmarks
+            add = '<leader>qa', -- add current open file to quickmarks
+            remove = '<leader>qr', -- remove current open file from quickmarks
+            remove_all = '<leader>qR', -- empty quickmarks
+            save = '<leader>qs', -- save quickmarks
+            shortcut = '<leader>qn', -- add a new shortcut
+            open_shortcut = '<leader>qo', -- open shortcut
         },
     })
 ```
@@ -85,20 +87,6 @@ The default keys you can use to navigate and handle the quickmaps window
 | j                | Move the cursor one line down                        |
 | k                | Move the cursor one line up                          |
 | Enter            | Open the selected file                               |
-
-### Normal mode mappings
-
-The default mappings that are available when you are in the vim normal mode
-<br />
-These mappings can be customized se ***[Usage](#usage)***
-
-| Mappings         | Action                                               |
-|:----------------:|------------------------------------------------------|
-| \<leader\>qq     | List the quickmarks that you've added                |
-| \<leader\>qa     | Add the current open file to your quickmarks list    |
-| \<leader\>qr     | Remove the current open file from your quickmarks    |
-| \<leader\>qR     | Empty the quickmarks list                            |
-| \<leader\>qs     | Save the quickmars list in a `.quickmarks` file      |
 
 # Shortcuts
 
