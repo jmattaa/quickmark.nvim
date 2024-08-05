@@ -2,10 +2,9 @@ require("quickmark.utils")
 local constants = require("quickmark.constants")
 local window_utils = require("quickmark.window_utils")
 
-local quickmarks_loaded_file = table.load_file(constants.quickmarks_f) or {{ constants.initial_msg }, {}}
-
-local quickmarks = quickmarks_loaded_file[1]
-local shortcuts = quickmarks_loaded_file[2]
+local managment = require("quickmark.features.management")
+local quickmarks = managment.quickmarks
+local shortcuts = managment.shortcuts
 
 local function display_quickmarks(filename)
     local startl = 0

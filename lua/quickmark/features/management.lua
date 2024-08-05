@@ -137,4 +137,6 @@ return {
     quickmark_remove = quickmark_remove,
     quickmarks_removeall = quickmarks_removeall,
     quickmarks_save = quickmarks_save,
+    quickmarks = quickmarks,
+    shortcuts = shortcuts,
 }
