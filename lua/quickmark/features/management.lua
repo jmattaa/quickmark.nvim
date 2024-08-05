@@ -1,3 +1,4 @@
+require("quickmark.utils")
 local constants = require("quickmark.constants")
 local config = require("quickmark.config").options
 

@@ -1,4 +1,5 @@
 local api = vim.api
+local config = require("quickmark.config")
 
 local function center_str(str)
     local width = api.nvim_win_get_width(0)
@@ -57,6 +58,14 @@ function table.load_file(filename)
         return tables
     else
         return nil
+    end
+end
+
+local og_print = print
+
+print = function(...)
+    if config.options.messages then
+        og_print(...)
     end
 end
 

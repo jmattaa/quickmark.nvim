@@ -3,6 +3,7 @@ local M = {}
 -- if you using anything but this config the default one idk what imma do
 -- but i created this so now i have monopoly
 M.options = {
+    messages = false,
     autosave = true,
     key_mappings = {
         list = '<leader>qq',
