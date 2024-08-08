@@ -2,13 +2,13 @@ require("quickmark.utils")
 local constants = require("quickmark.constants")
 local config = require("quickmark.config").options
 
-local quickmarks_loaded_file = table.load_file(constants.quickmarks_f) or {{ constants.initial_msg }, {}}
+local quickmarks_loaded_file = table.load_file(constants.quickmarks_f) or { { constants.initial_msg }, {} }
 
 local quickmarks = quickmarks_loaded_file[1]
 local shortcuts = quickmarks_loaded_file[2]
 
 local function quickmarks_save()
-    table.save_file({quickmarks, shortcuts}, constants.quickmarks_f)
+    table.save_file({ quickmarks, shortcuts }, constants.quickmarks_f)
     print("Quickmark: quickmarks saved")
 end
 
@@ -108,13 +108,25 @@ local function quickmarks_removeall()
     autosave()
 end
 
+-- remove quickmark at index x if exists
+local function quickmark_remove_i(x)
+    if quickmarks[x] then
+        table.remove(quickmarks, x)
+        table.remove(shortcuts, x)
+        print("Quickmark at index " .. x .. " removed")
+    else
+        print("No quickmark exists at index " .. x)
+    end
+
+    autosave()
+end
+
 -- removes current file from quickmarks
-local function quickmark_remove()
+local function quickmark_remove_f()
     local filename = vim.fn.expand('%:~:.')
     for i = 1, #quickmarks do
         if quickmarks[i] == filename then
-            table.remove(quickmarks, i)
-            table.remove(shortcuts, i)
+            quickmark_remove_i(i)
             print(filename .. " removed from quickmarks")
             break
         end
@@ -123,9 +135,9 @@ local function quickmark_remove()
     -- so the file that is left behind
     if #quickmarks == 0 then
         quickmarks_removeall() -- autosave will be called here
-    else
-        autosave()
     end
+
+    autosave()
 end
 
 return {
@@ -134,7 +146,8 @@ return {
     quickmark_getShortcuts = quickmark_getShortcuts,
     create_shortcut = create_shortcut,
     open_shortcut = open_shortcut,
-    quickmark_remove = quickmark_remove,
+    quickmark_remove_i = quickmark_remove_i,
+    quickmark_remove_f = quickmark_remove_f,
     quickmarks_removeall = quickmarks_removeall,
     quickmarks_save = quickmarks_save,
     quickmarks = quickmarks,

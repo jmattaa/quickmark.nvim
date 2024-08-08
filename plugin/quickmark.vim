@@ -5,8 +5,8 @@ let s:save_cpo = &cpo " save the users options
 set cpo&vim " use the default vim options
 
 " Highlighting
-hi def link QuickmarkInfo Comment
 hi def link QuickmarkTitle Identifier
+highlight QuickmarkInfo guifg=Yellow 
 
 " Quickmark command
 command! -nargs=+ -complete=customlist,QuickmarkComplete Quickmark :call QuickmarkCmd(<f-args>)
@@ -41,7 +41,7 @@ function! QuickmarkCmd(...)
         endif
         execute "lua require'quickmark'.quickmark_shortcut(" . a:2 . ")"
     elseif a:1 == "remove"
-        execute "lua require'quickmark'.quickmark_remove()"
+        execute "lua require'quickmark'.quickmark_remove_f()"
     elseif a:1 == "remove_all"
         execute "lua require'quickmark'.quickmarks_removeall()"
     elseif a:1 == "save"

@@ -23,24 +23,6 @@ project by using the default keybinding `<leader>qs` or by typing the command
 `:Quickmarks save<cr>`. This creates a file called `.quickmarks` in the
 directory you ran the `nvim` command in.
 
-Using VimL:
-
->vim
-    " Using the Quickmark commands
-    nnoremap <leader>qq :Quickmark list<CR>
-    nnoremap <leader>qa :Quickmark add<CR>
-    nnoremap <leader>qd :Quickmark remove<CR>
-    nnoremap <leader>qr :Quickmark removeAll<CR>
-    nnoremap <leader>qs :Quickmark save<CR>
-    
-    " Using Lua functions
-    nnoremap <leader>qq :lua require'quickmark'.quickmarks_list()<CR>
-    nnoremap <leader>qa :lua require'quickmark'.quickmark_add()<CR>
-    nnoremap <leader>qd :lua require'quickmark'.quickmark_remove()<CR>
-    nnoremap <leader>qr :lua require'quickmark'.quickmarks_removeall()<CR>
-    nnoremap <leader>qs :lua require'quickmark'.quickmarks_save()<CR>
-<
-
 Using Lua:
 
 >lua
