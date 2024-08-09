@@ -87,6 +87,7 @@ The default keys you can use to navigate and handle the quickmaps window
 | j                | Move the cursor one line down                        |
 | k                | Move the cursor one line up                          |
 | Enter            | Open the selected file                               |
+| r                | Remove the selected file from quickmarks             |
 
 # Shortcuts
 

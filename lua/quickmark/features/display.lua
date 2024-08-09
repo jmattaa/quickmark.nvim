@@ -1,11 +1,11 @@
 require("quickmark.utils")
-local constants = require("quickmark.constants")
 local window_utils = require("quickmark.window_utils")
 
 local managment = require("quickmark.features.management")
 local quickmarks = managment.quickmarks
-local shortcuts = managment.shortcuts
 
+-- DO I REALLY HAVE TO IGNORE THE FILENAME IDK
+-- maybe TODO; make ignore filename config?????
 local function display_quickmarks(filename)
     local startl = 0
     for i = 1, #quickmarks do -- to get length of a "table" (ARRAY!!) we use #
