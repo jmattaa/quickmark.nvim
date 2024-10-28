@@ -3,7 +3,7 @@
 # Quickmark.nvim
 ###### Quickly navigate your project 
 
-![demo](./assets/demo.mp4)
+![demo](./assets/demo.gif)
 
 </div>
 
