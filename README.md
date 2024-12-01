@@ -86,6 +86,8 @@ The default keys you can use to navigate and handle the quickmaps window
 | q or Escape      | Close the quickmark window                           |
 | j                | Move the cursor one line down                        |
 | k                | Move the cursor one line up                          |
+| gg               | Move the cursor to the first line                    |
+| G                | Move the cursor to the last line                     |
 | Enter            | Open the selected file                               |
 | r                | Remove the selected file from quickmarks             |
 

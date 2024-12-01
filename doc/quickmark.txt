@@ -59,6 +59,10 @@ The default keys you can use to navigate and handle the quickmaps window
 
   k                 Move the cursor one line up
 
+  gg		    Move the cursor to the first line (how vim motion works)
+
+  G		    Move the cursor to the last line (how vim motion works)
+
   Enter             Open the selected file
 
   r		    Remove selected file from quickmarks
