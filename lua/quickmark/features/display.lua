@@ -1,5 +1,6 @@
 require("quickmark.utils")
 local window_utils = require("quickmark.window_utils")
+local constants = require("quickmark.constants")
 
 local managment = require("quickmark.features.management")
 local quickmarks = managment.quickmarks
@@ -21,6 +22,10 @@ end
 local function quickmarks_list()
     local filename = vim.fn.expand('%:~:.')
     window_utils.open_window()
+
+    if (#quickmarks == 0) then
+        quickmarks = { constants.initial_msg }
+    end
 
     -- very inefficient ik (gotta fix this)
     -- !TODO: FIX ITTTTT!
